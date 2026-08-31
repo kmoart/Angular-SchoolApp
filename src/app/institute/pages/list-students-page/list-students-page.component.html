@@ -1,0 +1,23 @@
+<h3>Listado de Estudiantes</h3>
+<mat-divider></mat-divider>
+
+<div class="grid mb-8">
+  <div *ngFor="let student of paginatedStudents"
+  class="col-12 sm:col-4 md:col-3 xl:col-2">
+    <students-student-card [student]="student"></students-student-card>
+  </div>
+</div>
+
+<div class="paginator-container">
+  <mat-paginator
+    [length]="students.length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[6, 12, 24]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>
+
+
+

@@ -1,0 +1,21 @@
+<h3>Listado de Profesores</h3>
+<mat-divider></mat-divider>
+
+<div class="grid mb-8">
+  <div *ngFor="let professor of paginatedProfessors"
+  class="col-12 sm:col-4 md:col-3 xl:col-2">
+    <professors-professor-card [professor]="professor"></professors-professor-card>
+  </div>
+</div>
+
+<div class="paginator-container">
+  <mat-paginator
+    [length]="professors.length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[6, 12, 24]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>
+
