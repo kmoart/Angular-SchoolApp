@@ -86,15 +86,47 @@ export class NewProfessorPageComponent implements OnInit{
         data: this.professorForm.value
       });
 
-      dialogRef.afterClosed().subscribe( result =>{
-        if ( !result ) return;
+      dialogRef.afterClosed().subscribe(result => {
 
-        this.professorService.deleteProfessorById( this.professor.id )
-        .subscribe( eliminado =>{
-          if( eliminado )
-            this.router.navigate(['/institute/listProfessors']);
-        });
+    if (!result) return;
+
+    this.professorService.deleteProfessorById(this.professor.id)
+      .subscribe({
+
+        next: () => {
+
+          this.showSnackbar(
+            `${this.professor.nombre} eliminado!`
+          );
+
+          this.router.navigate(
+            ['/institute/listProfessors']
+          );
+
+        },
+
+        error: (err) => {
+
+          console.error('Error al eliminar profesor:', err);
+
+          if (err.status === 409) {
+
+            this.showSnackbar(
+              'No se puede eliminar el profesor porque tiene una nota asociada.'
+            );
+
+            return;
+          }
+
+          this.showSnackbar(
+            'No se pudo eliminar el profesor.'
+          );
+
+        }
+
       });
+
+    });
   }
 
   showSnackbar( message: string ): void {

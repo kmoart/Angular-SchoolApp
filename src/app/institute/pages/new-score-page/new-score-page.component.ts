@@ -132,8 +132,10 @@ export class NewScorePageComponent implements OnInit{
 
         this.scoreService.deleteScoreById( this.score.id )
         .subscribe( eliminado =>{
-          if( eliminado )
+          if( eliminado ){
+            this.showSnackbar(`${ this.score.nombre } eliminado!`);
             this.router.navigate(['/institute/listScores']);
+          }
         });
       });
   }

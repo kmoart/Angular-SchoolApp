@@ -34,12 +34,9 @@ export class ProfessorsService {
       return this.http.put<Professor>(`${ this.baseUrl }/Profesor/ModificarProfesor/${ professor.id}`, professor);
   }
 
-  public deleteProfessorById(id: number): Observable<boolean>{
+  public deleteProfessorById(id: number): Observable<void>{
 
-      return this.http.delete(`${ this.baseUrl}/Profesor/EliminarProfesor/${ id }`)
-      .pipe(
-        catchError( err => of(false)),
-        map( resp => true)
-      );
+      return this.http.delete<void>(`${ this.baseUrl}/Profesor/EliminarProfesor/${ id }`)
+
   }
 }

@@ -86,15 +86,47 @@ export class NewStudentPageComponent implements OnInit{
         data: this.studentForm.value
       });
 
-      dialogRef.afterClosed().subscribe( result =>{
-        if ( !result ) return;
+    dialogRef.afterClosed().subscribe(result => {
 
-        this.studentService.deleteStudentById( this.student.id )
-        .subscribe( eliminado =>{
-          if( eliminado )
-            this.router.navigate(['/institute/listStudents']);
-        });
+    if (!result) return;
+
+    this.studentService.deleteStudentById(this.student.id)
+      .subscribe({
+
+        next: () => {
+
+          this.showSnackbar(
+            `${this.student.nombre} eliminado!`
+          );
+
+          this.router.navigate(
+            ['/institute/listStudents']
+          );
+
+        },
+
+        error: (err) => {
+
+          console.error('Error al eliminar estudiante:', err);
+
+          if (err.status === 409) {
+
+            this.showSnackbar(
+              'No se puede eliminar el estudiante porque tiene una nota asociada.'
+            );
+
+            return;
+          }
+
+          this.showSnackbar(
+            'No se pudo eliminar el estudiante.'
+          );
+
+        }
+
       });
+
+    });
   }
 
   showSnackbar( message: string ): void {
